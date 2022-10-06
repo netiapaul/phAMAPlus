@@ -10,7 +10,8 @@ import {
   Text,
   Image,
 } from "native-base";
-function Landing() {
+
+function Landing({ navigation }) {
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -37,7 +38,8 @@ function Landing() {
           {/* bg="indigo.700" */}
           <Center flex={1}>
             <Pressable
-              onPress={() => console.log("MegaJackpot Winner with Kinjoz")}
+              onPress={() => navigation.navigate("Home")}
+              // onPress={() => console.log("MegaJackpot Winner with Kinjoz")}
             >
               {({ isHovered, isFocused, isPressed }) => {
                 return (
