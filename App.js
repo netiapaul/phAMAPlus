@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import DashBoard from "./components/dashboard";
+import Landing from "./components/landing";
+
 export default function App() {
-  return <DashBoard />;
+  return <Landing />;
 }

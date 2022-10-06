@@ -1,15 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { AppBar } from "@react-native-material/core";
-
+import { NativeBaseProvider } from "native-base";
 function Dashboard() {
   return (
     // <View>
-    <>
-      <AppBar title="Screen title" />
+    <NativeBaseProvider>
       <Text> Headed to greatness with Kinjoz</Text>
-    </>
-
+    </NativeBaseProvider>
     // </View>
   );
 }
