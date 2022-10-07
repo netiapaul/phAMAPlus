@@ -14,17 +14,22 @@ import {
   Link,
   Button,
   HStack,
+  Pressable,
+  Icon,
 } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 
 function Login() {
   const [formData, setFormData] = useState({
     nationalID: "",
     pin: "",
+    isLoading: false,
   });
   const [errors, setErrors] = useState({
     nationalID: "",
     pin: "",
   });
+  const [show, setShow] = useState(false);
   /**
    * TODO: Handle Validate form
    */
@@ -94,7 +99,7 @@ function Login() {
 
             <VStack space={3} mt="5">
               <FormControl isRequired isInvalid={"nationalID" in errors}>
-                <FormControl.Label>Email ID</FormControl.Label>
+                <FormControl.Label>National ID</FormControl.Label>
                 <Input
                   placeholder="12345678"
                   onChangeText={(value) =>
@@ -112,9 +117,24 @@ function Login() {
               <FormControl isRequired isInvalid={"pin" in errors}>
                 <FormControl.Label>Password</FormControl.Label>
                 <Input
-                  type="password"
+                  type={show ? "text" : "password"}
+                  keyboardType="numeric"
                   onChangeText={(value) =>
                     setFormData({ ...formData, pin: value })
+                  }
+                  InputRightElement={
+                    <Pressable onPress={() => setShow(!show)}>
+                      <Icon
+                        as={
+                          <MaterialIcons
+                            name={show ? "visibility" : "visibility-off"}
+                          />
+                        }
+                        size={5}
+                        mr="2"
+                        color="muted.400"
+                      />
+                    </Pressable>
                   }
                 />
                 {"pin" in errors ? (
@@ -146,7 +166,7 @@ function Login() {
                   color: "white",
                 }}
                 p={4}
-                isLoading={false}
+                isLoading={formData.isLoading}
                 isLoadingText="Submitting"
                 onPress={handleSubmit}
               >
