@@ -10,8 +10,21 @@ import {
   Text,
   Image,
 } from "native-base";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
 function Landing({ navigation }) {
+  const storeData = async () => {
+    await SecureStore.setItemAsync("Future", "MegaJackpot Winner with Kinjoz");
+    // try {
+    //   const jsonValue = JSON.stringify(value);
+    //   await AsyncStorage.setItem("@storage_Key", jsonValue);
+    // } catch (e) {
+    //   // saving error
+    //   console.log(e);
+    // }
+    return navigation.navigate("Home");
+  };
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -38,7 +51,7 @@ function Landing({ navigation }) {
           {/* bg="indigo.700" */}
           <Center flex={1}>
             <Pressable
-              onPress={() => navigation.navigate("Home")}
+              onPress={storeData}
               // onPress={() => console.log("MegaJackpot Winner with Kinjoz")}
             >
               {({ isHovered, isFocused, isPressed }) => {

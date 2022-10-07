@@ -1,13 +1,35 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { NativeBaseProvider } from "native-base";
+import React, { useEffect } from "react";
+import { StyleSheet, Text } from "react-native";
+import { NativeBaseProvider, Center, View } from "native-base";
 import Colors from "../constants/colors";
+import * as SecureStore from "expo-secure-store";
 
 function Dashboard() {
+  const storeData = async () => {
+    let result = await SecureStore.getItemAsync("Future");
+    if (result) {
+      alert("🔐 Here's your value 🔐 \n" + result);
+    } else {
+      alert("No values stored under that key.");
+    }
+  };
+
+  useEffect(() => {
+    storeData();
+  }, []);
+
   return (
     <NativeBaseProvider>
-      <View style={styles.container}>
-        <Text> Headed to greatness with Kinjoz</Text>
+      <View flex={1}>
+        <View flex={1} bg="indigo.300">
+          <Text> Headed to greatness with Kinjoz</Text>
+        </View>
+        <View flex={1} bg="indigo.500">
+          <Text> Headed to greatness with Kinjoz</Text>
+        </View>
+        <View flex={1} bg="indigo.700">
+          <Text> Headed to greatness with Kinjoz</Text>
+        </View>
       </View>
     </NativeBaseProvider>
   );
