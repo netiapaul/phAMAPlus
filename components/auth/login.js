@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { KeyboardAvoidingView, StyleSheet } from "react-native";
 import Colors from "../../constants/colors";
 import {
@@ -15,13 +15,43 @@ import {
   Button,
   HStack,
 } from "native-base";
+
 function Login() {
+  const [formData, setFormData] = useState({
+    nationalID: "",
+    pin: "",
+  });
+  const [errors, setErrors] = useState({
+    nationalID: "",
+    pin: "",
+  });
+  /**
+   * TODO: Handle Validate form
+   */
+  const validate = () => {
+    if (!formData.nationalID) {
+      setErrors({ ...errors, nationalID: "National ID is required" });
+      return false;
+    } else if (!formData.pin) {
+      setErrors({ ...errors, pin: "Pin is required" });
+      return false;
+    }
+    return true;
+  };
+  /**
+   * TODO: Handle Submit form
+   */
+  const handleSubmit = () => {
+    validate()
+      ? alert(`${formData.nationalID} ${formData.pin}`)
+      : alert("Validation Failed");
+  };
+
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingView
         flex={1}
-        keyboardVerticalOffset={-500}
-        behavior="padding"
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View flex={1}>
           <Center flex={1} bg="violet.500">
@@ -63,13 +93,37 @@ function Login() {
             </Heading>
 
             <VStack space={3} mt="5">
-              <FormControl>
+              <FormControl isRequired isInvalid={"nationalID" in errors}>
                 <FormControl.Label>Email ID</FormControl.Label>
-                <Input />
+                <Input
+                  placeholder="12345678"
+                  onChangeText={(value) =>
+                    setFormData({ ...formData, nationalID: value })
+                  }
+                />
+                {"nationalID" in errors ? (
+                  <FormControl.ErrorMessage>
+                    {errors.nationalID}
+                  </FormControl.ErrorMessage>
+                ) : (
+                  ""
+                )}
               </FormControl>
-              <FormControl>
+              <FormControl isRequired isInvalid={"pin" in errors}>
                 <FormControl.Label>Password</FormControl.Label>
-                <Input type="password" />
+                <Input
+                  type="password"
+                  onChangeText={(value) =>
+                    setFormData({ ...formData, pin: value })
+                  }
+                />
+                {"pin" in errors ? (
+                  <FormControl.ErrorMessage>
+                    {errors.pin}
+                  </FormControl.ErrorMessage>
+                ) : (
+                  ""
+                )}
                 <Link
                   _text={{
                     fontSize: "xs",
@@ -84,9 +138,17 @@ function Login() {
               </FormControl>
               <Button
                 mt="2"
-                colorScheme="indigo"
+                bg={Colors.phAMACoreColor2}
+                // colorScheme="indigo"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "500",
+                  color: "white",
+                }}
+                p={4}
                 isLoading={false}
                 isLoadingText="Submitting"
+                onPress={handleSubmit}
               >
                 Sign in
               </Button>
