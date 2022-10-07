@@ -23,7 +23,7 @@ function Landing({ navigation }) {
     //   // saving error
     //   console.log(e);
     // }
-    return navigation.navigate("Home");
+    return navigation.navigate("Login");
   };
   return (
     <NativeBaseProvider>

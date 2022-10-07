@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
-import { NativeBaseProvider, Box, View, HStack, Heading } from "native-base";
+import {
+  NativeBaseProvider,
+  Box,
+  View,
+  HStack,
+  Heading,
+  Center,
+} from "native-base";
 import Colors from "../constants/colors";
 import * as SecureStore from "expo-secure-store";
 
@@ -21,7 +28,7 @@ function Dashboard() {
   return (
     <NativeBaseProvider>
       <View flex={1}>
-        <Box safeAreaTop bg="violet.600" />
+        <Box safeAreaTop />
         <HStack
           px="1"
           py="4"
@@ -34,11 +41,32 @@ function Dashboard() {
         <View flex={1} bg="indigo.300">
           <Text> Headed to greatness with Kinjoz</Text>
         </View>
-        <View flex={1} bg="indigo.500">
-          <Text> Headed to greatness with Kinjoz</Text>
+        <View flex={2} bg="indigo.500" px="3" justifyContent="center">
+          <Heading pb="2" bg="violet.500">
+            Recent Activity
+          </Heading>
+          <Box width="100%" bg="primary.500" p="4" my={1}>
+            <Text> Headed to greatness with Kinjoz</Text>
+          </Box>
+          <Box width="100%" bg="primary.500" p="4" my={1}>
+            <Text> Headed to greatness with Kinjoz</Text>
+          </Box>
+          <Box width="100%" bg="primary.500" p="4" my={1}>
+            <Text> Headed to greatness with Kinjoz</Text>
+          </Box>
+          <Box width="100%" bg="primary.500" p="4" my={1}>
+            <Text> Headed to greatness with Kinjoz</Text>
+          </Box>
+          <Box width="100%" bg="primary.500" p="4" mt={1}>
+            <Text> Headed to greatness with Kinjoz</Text>
+          </Box>
         </View>
-        <View flex={1} bg="indigo.700">
-          <Text> Headed to greatness with Kinjoz</Text>
+        <View flex={1} bg="indigo.700" px="3">
+          <Center flex={1}>
+            <Box width="100%" bg="primary.500" p="4" mt={1}>
+              <Text> Headed to greatness with Kinjoz</Text>
+            </Box>
+          </Center>
         </View>
       </View>
     </NativeBaseProvider>

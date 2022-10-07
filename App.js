@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Landing from "./components/landing";
 import Dashboard from "./components/dashboard";
 import Transactions from "./components/transactions";
+import Login from "./components/auth/login";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createBottomTabNavigator();
@@ -54,6 +55,13 @@ export default function App() {
         <Stack.Screen
           name="Landing"
           component={Landing}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
           options={{
             headerShown: false,
           }}

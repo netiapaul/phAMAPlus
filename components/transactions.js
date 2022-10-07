@@ -21,7 +21,7 @@ function Transactions() {
   return (
     <NativeBaseProvider>
       <View flex={1}>
-        <Box safeAreaTop bg="violet.600" />
+        <Box safeAreaTop />
         <HStack
           px="1"
           py="4"
