@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
 import Colors from "../../constants/colors";
 import {
   NativeBaseProvider,
@@ -18,22 +18,28 @@ import {
 function Login() {
   return (
     <NativeBaseProvider>
-      <View style={styles.container}>
-        <View flex={1} bg="primary.300">
-          <Heading
-            size="lg"
-            fontWeight="600"
-            color="coolGray.800"
-            _dark={{
-              color: "warmGray.50",
-            }}
-          >
-            Welcome
-          </Heading>
+      <KeyboardAvoidingView
+        flex={1}
+        keyboardVerticalOffset={-500}
+        behavior="padding"
+      >
+        <View flex={1}>
+          <Center flex={1} bg="violet.500">
+            <Heading
+              size="lg"
+              fontWeight="600"
+              color="coolGray.800"
+              _dark={{
+                color: "warmGray.50",
+              }}
+            >
+              Welcome
+            </Heading>
+          </Center>
         </View>
         {/*  w="100%" */}
-        <Center bg="primary.500" flex={1}>
-          <Box safeArea p="2" w="90%" maxW="290" bg="primary.700">
+        <Center px="5">
+          <Box p="2" w="100%">
             <Heading
               size="lg"
               fontWeight="600"
@@ -76,10 +82,15 @@ function Login() {
                   Forget Password?
                 </Link>
               </FormControl>
-              <Button mt="2" colorScheme="indigo">
+              <Button
+                mt="2"
+                colorScheme="indigo"
+                isLoading={false}
+                isLoadingText="Submitting"
+              >
                 Sign in
               </Button>
-              <HStack mt="6" justifyContent="center">
+              <HStack my="3" justifyContent="center">
                 <Text
                   fontSize="sm"
                   color="coolGray.600"
@@ -103,7 +114,7 @@ function Login() {
             </VStack>
           </Box>
         </Center>
-      </View>
+      </KeyboardAvoidingView>
     </NativeBaseProvider>
   );
 }
