@@ -28,14 +28,12 @@ function Landing({ navigation }) {
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
-        <View style={styles.box1}>
+        <View flex={3}>
           <Center flex={1}>
             <Image
-              source={{
-                uri: "https://wallpaperaccess.com/full/317501.jpg",
-              }}
+              source={require("../assets/shopping.png")}
               alt="Alternate Text"
-              size="xl"
+              resizeMode="contain"
             />
           </Center>
         </View>
