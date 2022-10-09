@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { NativeBaseProvider, Box, View, HStack, Heading } from "native-base";
-import Colors from "../constants/colors";
+import Colors from "../config/colors";
 import * as SecureStore from "expo-secure-store";
 
 function Transactions() {

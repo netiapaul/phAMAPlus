@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Colors from "../constants/colors";
+import Colors from "../config/colors";
 import {
   NativeBaseProvider,
   Heading,
