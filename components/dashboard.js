@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ActivityIndicator } from "react-native";
 import {
   NativeBaseProvider,
   Box,
@@ -10,21 +10,25 @@ import {
   Center,
   Avatar,
   Text,
+  VStack,
+  Divider,
+  Flex,
+  ScrollView,
 } from "native-base";
 import Colors from "../config/colors";
 import * as SecureStore from "expo-secure-store";
 // import Snackbar from "react-native-snackbar";
 
-function Dashboard() {
+function Dashboard({ route, navigation }) {
   const [userData, setUserData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const handleDashboard = async () => {
     setIsLoading(true);
     let token = await SecureStore.getItemAsync("token");
-    if (token) {
+    let memberno = await SecureStore.getItemAsync("memberno");
+    if (token || memberno) {
       return fetch(
-        `http://102.37.102.247:5016/Customers/members?memberNum=PPL000031`,
+        `http://102.37.102.247:5016/Customers/members?memberNum=${memberno}`,
         {
           method: "GET", // GET, POST, PUT, DELETE, etc.
           headers: {
@@ -72,24 +76,36 @@ function Dashboard() {
 
   return (
     <NativeBaseProvider>
-      <View flex={1}>
-        <Box safeAreaTop />
-        <HStack
-          px="1"
-          py="4"
-          justifyContent="space-between"
-          alignItems="center"
-          w="100%"
-        >
-          <Heading> Dashboard</Heading>
-          <Avatar bg="green.500" mr="1" size="sm">
-            RS
-          </Avatar>
-        </HStack>
-        <View flex={1} bg="indigo.300" justifyContent="center">
-          <Box alignItems="center">
+      {isLoading ? (
+        <Center flex={1}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </Center>
+      ) : (
+        <View flex={1}>
+          <Box safeAreaTop />
+          <HStack
+            px="1"
+            py="4"
+            justifyContent="space-between"
+            alignItems="center"
+            w="100%"
+            bg="coolGray.200"
+          >
+            <Heading> Dashboard</Heading>
+            <Avatar bg="green.500" mr="1" size="sm">
+              RS
+            </Avatar>
+          </HStack>
+          <Box bg="primary.100" p="2" mt={1}>
+            <VStack>
+              <Text fontSize={"2xs"}> Welcome back,</Text>
+              <Text fontWeight={"semibold"}> {userData.membername}</Text>
+            </VStack>
+          </Box>
+          <View flex={1} p="5" justifyContent="center">
             <Box
-              // maxW="80"
+              // minW="80"
+              shadow={5}
               rounded="lg"
               overflow="hidden"
               borderColor="coolGray.200"
@@ -108,10 +124,8 @@ function Dashboard() {
             >
               <Stack p="4" space={3}>
                 <Stack space={2}>
-                  <Heading size="md" ml="-1">
-                    phAMAplus Points
-                  </Heading>
-                  <Text
+                  <Heading size="sm">phAMAplus Points</Heading>
+                  {/* <Text
                     fontSize="xs"
                     _light={{
                       color: "violet.500",
@@ -124,14 +138,12 @@ function Dashboard() {
                     mt="-1"
                   >
                     Points available.
-                  </Text>
+                  </Text> */}
                 </Stack>
-                <Text fontWeight="400">
-                  Bengaluru (also called Bangalore) is the center of India's
-                  high-tech industry. The city is also known for its parks and
-                  nightlife.
+                <Text fontWeight="500" space={3} fontSize="5xl">
+                  {userData.mempointsbal} pts
                 </Text>
-                <HStack
+                {/* <HStack
                   alignItems="center"
                   space={4}
                   justifyContent="space-between"
@@ -148,44 +160,284 @@ function Dashboard() {
                       Points Details
                     </Text>
                   </HStack>
+                </HStack> */}
+                <HStack
+                  alignItems="center"
+                  space={4}
+                  justifyContent="space-between"
+                >
+                  <HStack alignItems="center">
+                    <Text
+                      color="coolGray.600"
+                      _dark={{
+                        color: "warmGray.200",
+                      }}
+                      fontWeight="500"
+                      fontSize="xs"
+                    >
+                      {userData.membername}
+                    </Text>
+                  </HStack>
+                  <HStack alignItems="center">
+                    <Text
+                      color="coolGray.600"
+                      _dark={{
+                        color: "warmGray.200",
+                      }}
+                      fontWeight="500"
+                      fontSize="xs"
+                    >
+                      {new Date().toDateString()}
+                    </Text>
+                  </HStack>
                 </HStack>
               </Stack>
             </Box>
-          </Box>
-        </View>
-        <View flex={2} bg="indigo.500" px="3" justifyContent="center">
-          <Heading pb="2" bg="violet.500">
-            Recent Activity {userData.memidno}
-          </Heading>
-          <Box width="100%" bg="primary.500" p="4" my={1}>
-            <Text> Headed to greatness with Kinjoz</Text>
-          </Box>
-          <Box width="100%" bg="primary.500" p="4" my={1}>
-            <Text> Headed to greatness with Kinjoz</Text>
-          </Box>
-          <Box width="100%" bg="primary.500" p="4" my={1}>
-            <Text> Headed to greatness with Kinjoz</Text>
-          </Box>
-          <Box width="100%" bg="primary.500" p="4" my={1}>
-            <Text> Headed to greatness with Kinjoz</Text>
-          </Box>
-          <Box width="100%" bg="primary.500" p="4" mt={1}>
-            <Text> Headed to greatness with Kinjoz</Text>
-          </Box>
-        </View>
-        <View flex={1} bg="indigo.700" px="3">
+            <Flex
+              direction="row"
+              p="4"
+              w={"100%"}
+              justifyContent="space-between"
+              mt={2}
+            >
+              <VStack mx={"auto"}>
+                <Text mx={"auto"} fontWeight="200">
+                  Available
+                </Text>
+                <Text mx={"auto"} fontWeight={"bold"}>
+                  {userData.mempointsbal} pts
+                </Text>
+              </VStack>
+
+              <Divider thickness="1" mx="2" orientation="vertical" />
+              <VStack mx={"auto"}>
+                <Text mx={"auto"} fontWeight="200">
+                  Gained
+                </Text>
+                <Text mx={"auto"} fontWeight={"bold"}>
+                  {userData.mempointsbuy} pts
+                </Text>
+              </VStack>
+
+              <Divider thickness="1" mx="2" orientation="vertical" />
+              <VStack mx={"auto"}>
+                <Text mx={"auto"} fontWeight="200">
+                  Redeemed
+                </Text>
+                <Text mx={"auto"} fontWeight={"bold"}>
+                  {userData.mempointsredeem} pts
+                </Text>
+              </VStack>
+            </Flex>
+          </View>
+          <View flex={2} bg="coolGray.300" px="3">
+            <Heading mt={2} mb={1}>
+              Recent Transactions
+            </Heading>
+            <ScrollView>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+              <Box
+                width="100%"
+                p="4"
+                my={1}
+                rounded="lg"
+                bg="coolGray.100"
+                shadow={2}
+              >
+                <Text> Headed to greatness with Kinjoz</Text>
+              </Box>
+            </ScrollView>
+          </View>
+          {/* <View flex={1} bg="indigo.700" px="3">
           <Center flex={1}>
             <Box width="100%" bg="primary.500" p="4" mt={1}>
               <Text> Headed to greatness with Kinjoz</Text>
             </Box>
           </Center>
+        </View> */}
         </View>
-      </View>
+      )}
     </NativeBaseProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  appBar: {
+    elevation: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 5, height: 5 },
+    shadowRadius: 10,
+    // backgroundColor: Colors.phAMACoreColor1,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.phAMACoreColor1,

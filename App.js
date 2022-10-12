@@ -67,7 +67,7 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Home"
+          name="Dashboard"
           component={Home}
           options={{
             headerShown: false,

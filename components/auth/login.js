@@ -74,8 +74,9 @@ function Login({ navigation }) {
           const data = await response.json();
           setIsLoading(false);
           await SecureStore.setItemAsync("token", data.token);
+          await SecureStore.setItemAsync("memberno", data.user.memberno);
           console.log(data);
-          return navigation.navigate("Home");
+          return navigation.navigate("Dashboard");
         } else {
           const data = await response.json();
           setIsLoading(false);
