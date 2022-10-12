@@ -17,7 +17,6 @@ import {
   Pressable,
   Icon,
   Image,
-  useToast,
   Alert,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -25,7 +24,6 @@ import * as SecureStore from "expo-secure-store";
 // import { API_URL } from "@env";
 
 function Login({ navigation }) {
-  const toast = useToast();
   const [formData, setFormData] = useState({
     nationalID: "",
     pin: "",
@@ -82,44 +80,10 @@ function Login({ navigation }) {
           const data = await response.json();
           setIsLoading(false);
           // alert(data.errors.message);
-          toast.show({
-            render: () => {
-              return (
-                <Center>
-                  <Alert w="100%" status="error">
-                    <VStack space={2} flexShrink={1} w="100%">
-                      <HStack
-                        flexShrink={1}
-                        space={2}
-                        justifyContent="space-between"
-                      >
-                        <HStack space={2} flexShrink={1}>
-                          <Alert.Icon mt="1" />
-                          <Text fontSize="md" color="coolGray.800">
-                            {data.errors.message}
-                          </Text>
-                        </HStack>
-                        <IconButton
-                          variant="unstyled"
-                          _focus={{
-                            borderWidth: 0,
-                          }}
-                          icon={<CloseIcon size="3" />}
-                          _icon={{
-                            color: "coolGray.600",
-                          }}
-                        />
-                      </HStack>
-                    </VStack>
-                  </Alert>
-
-                  {/* <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
-                    {data.errors.message}
-                  </Box> */}
-                </Center>
-              );
-            },
-          });
+          // Snackbar.show({
+          //   text: "Hello world",
+          //   duration: Snackbar.LENGTH_SHORT,
+          // });
           return console.log(data.errors.message);
         }
       })

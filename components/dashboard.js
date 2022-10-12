@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   NativeBaseProvider,
   Box,
   View,
+  Stack,
   HStack,
   Heading,
   Center,
-  useToast,
+  Avatar,
+  Text,
 } from "native-base";
 import Colors from "../config/colors";
 import * as SecureStore from "expo-secure-store";
@@ -16,7 +18,6 @@ import * as SecureStore from "expo-secure-store";
 function Dashboard() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
 
   const handleDashboard = async () => {
     setIsLoading(true);
@@ -27,7 +28,7 @@ function Dashboard() {
         {
           method: "GET", // GET, POST, PUT, DELETE, etc.
           headers: {
-            Accept: "application/json",
+            Accept: "*/*",
             "Content-Type": "application/json; charset=utf-8",
             Authorization: `Bearer ${token}`,
           },
@@ -81,9 +82,76 @@ function Dashboard() {
           w="100%"
         >
           <Heading> Dashboard</Heading>
+          <Avatar bg="green.500" mr="1" size="sm">
+            RS
+          </Avatar>
         </HStack>
-        <View flex={1} bg="indigo.300">
-          <Text> Headed to greatness with Kinjoz</Text>
+        <View flex={1} bg="indigo.300" justifyContent="center">
+          <Box alignItems="center">
+            <Box
+              // maxW="80"
+              rounded="lg"
+              overflow="hidden"
+              borderColor="coolGray.200"
+              borderWidth=".5"
+              _dark={{
+                borderColor: "coolGray.600",
+                backgroundColor: "gray.700",
+              }}
+              _web={{
+                shadow: 2,
+                borderWidth: 0,
+              }}
+              _light={{
+                backgroundColor: "gray.50",
+              }}
+            >
+              <Stack p="4" space={3}>
+                <Stack space={2}>
+                  <Heading size="md" ml="-1">
+                    phAMAplus Points
+                  </Heading>
+                  <Text
+                    fontSize="xs"
+                    _light={{
+                      color: "violet.500",
+                    }}
+                    _dark={{
+                      color: "violet.400",
+                    }}
+                    fontWeight="500"
+                    ml="-0.5"
+                    mt="-1"
+                  >
+                    Points available.
+                  </Text>
+                </Stack>
+                <Text fontWeight="400">
+                  Bengaluru (also called Bangalore) is the center of India's
+                  high-tech industry. The city is also known for its parks and
+                  nightlife.
+                </Text>
+                <HStack
+                  alignItems="center"
+                  space={4}
+                  justifyContent="space-between"
+                >
+                  <HStack alignItems="center">
+                    <Text
+                      color="coolGray.600"
+                      _dark={{
+                        color: "warmGray.200",
+                      }}
+                      fontWeight="300"
+                      fontSize="xs"
+                    >
+                      Points Details
+                    </Text>
+                  </HStack>
+                </HStack>
+              </Stack>
+            </Box>
+          </Box>
         </View>
         <View flex={2} bg="indigo.500" px="3" justifyContent="center">
           <Heading pb="2" bg="violet.500">
