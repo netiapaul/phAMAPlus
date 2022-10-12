@@ -14,6 +14,7 @@ import {
   Divider,
   Flex,
   ScrollView,
+  Image,
 } from "native-base";
 import Colors from "../config/colors";
 import * as SecureStore from "expo-secure-store";
@@ -21,6 +22,7 @@ import * as SecureStore from "expo-secure-store";
 
 function Dashboard({ route, navigation }) {
   const [userData, setUserData] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const handleDashboard = async () => {
     setIsLoading(true);
@@ -28,7 +30,7 @@ function Dashboard({ route, navigation }) {
     let memberno = await SecureStore.getItemAsync("memberno");
     if (token || memberno) {
       return fetch(
-        `http://102.37.102.247:5016/Customers/members?memberNum=${memberno}`,
+        `http://102.37.102.247:5016/Customers/members?memberNum=${"PP000008"}`,
         {
           method: "GET", // GET, POST, PUT, DELETE, etc.
           headers: {
@@ -60,6 +62,44 @@ function Dashboard({ route, navigation }) {
       alert("No values stored under that key.");
     }
   };
+  const handleTransactions = async () => {
+    setIsLoading(true);
+    let token = await SecureStore.getItemAsync("token");
+    let memberno = await SecureStore.getItemAsync("memberno");
+    if (token || memberno) {
+      return fetch(
+        `http://102.37.102.247:5016/CustomerPoints/GetCustomerTransactions?memberNo=${"PP000008"}`,
+        {
+          method: "GET", // GET, POST, PUT, DELETE, etc.
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+        .then(async (response) => {
+          if (response.ok) {
+            const data = await response.json();
+            setIsLoading(false);
+            setTransactions(data);
+            console.log(data);
+          } else {
+            const data = await response.json();
+            setIsLoading(false);
+            return console.log(data);
+          }
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error.message);
+          // ADD THIS THROW error
+          throw error;
+        });
+    } else {
+      alert("No values stored under that key.");
+    }
+  };
 
   const storeData = async () => {
     let result = await SecureStore.getItemAsync("token");
@@ -72,6 +112,7 @@ function Dashboard({ route, navigation }) {
 
   useEffect(() => {
     handleDashboard();
+    handleTransactions();
   }, []);
 
   return (
@@ -84,22 +125,24 @@ function Dashboard({ route, navigation }) {
         <View flex={1}>
           <Box safeAreaTop />
           <HStack
-            px="1"
-            py="4"
+            p="2"
             justifyContent="space-between"
             alignItems="center"
             w="100%"
             bg="coolGray.200"
           >
-            <Heading> Dashboard</Heading>
+            <Heading size="md"> Dashboard</Heading>
             <Avatar bg="green.500" mr="1" size="sm">
               RS
             </Avatar>
           </HStack>
-          <Box bg="primary.100" p="2" mt={1}>
+          <Box px="2" py="1">
             <VStack>
               <Text fontSize={"2xs"}> Welcome back,</Text>
-              <Text fontWeight={"semibold"}> {userData.membername}</Text>
+              <Text fontWeight={"semibold"} color={Colors.phAMACoreColor2}>
+                {" "}
+                {userData.membername}
+              </Text>
             </VStack>
           </Box>
           <View flex={1} p="5" justifyContent="center">
@@ -140,7 +183,12 @@ function Dashboard({ route, navigation }) {
                     Points available.
                   </Text> */}
                 </Stack>
-                <Text fontWeight="500" space={3} fontSize="5xl">
+                <Text
+                  fontWeight="500"
+                  space={3}
+                  fontSize="5xl"
+                  color={Colors.phAMACoreColor2}
+                >
                   {userData.mempointsbal} pts
                 </Text>
                 {/* <HStack
@@ -204,7 +252,8 @@ function Dashboard({ route, navigation }) {
                 <Text mx={"auto"} fontWeight="200">
                   Available
                 </Text>
-                <Text mx={"auto"} fontWeight={"bold"}>
+
+                <Text mx={"auto"} fontWeight={"bold"} color={Colors.success}>
                   {userData.mempointsbal} pts
                 </Text>
               </VStack>
@@ -214,7 +263,11 @@ function Dashboard({ route, navigation }) {
                 <Text mx={"auto"} fontWeight="200">
                   Gained
                 </Text>
-                <Text mx={"auto"} fontWeight={"bold"}>
+                <Text
+                  mx={"auto"}
+                  fontWeight={"bold"}
+                  color={Colors.phAMACoreColor1}
+                >
                   {userData.mempointsbuy} pts
                 </Text>
               </VStack>
@@ -224,197 +277,122 @@ function Dashboard({ route, navigation }) {
                 <Text mx={"auto"} fontWeight="200">
                   Redeemed
                 </Text>
-                <Text mx={"auto"} fontWeight={"bold"}>
+                <Text mx={"auto"} fontWeight={"bold"} color={Colors.danger}>
                   {userData.mempointsredeem} pts
                 </Text>
               </VStack>
             </Flex>
           </View>
           <View flex={2} bg="coolGray.300" px="3">
-            <Heading mt={2} mb={1}>
+            <Heading mt={2} mb={2} size="md">
               Recent Transactions
             </Heading>
             <ScrollView>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
-              <Box
-                width="100%"
-                p="4"
-                my={1}
-                rounded="lg"
-                bg="coolGray.100"
-                shadow={2}
-              >
-                <Text> Headed to greatness with Kinjoz</Text>
-              </Box>
+              {transactions ? (
+                transactions.map((transaction, index) => (
+                  <Box
+                    width="100%"
+                    p="3"
+                    my={1}
+                    rounded="md"
+                    bg="coolGray.100"
+                    key={index}
+                    shadow={2}
+                  >
+                    <HStack
+                      justifyContent="space-between"
+                      alignItems="center"
+                      bg={"indigo.100"}
+                    >
+                      <VStack>
+                        <Text
+                          color={"muted.800"}
+                          fontWeight="600"
+                          fontSize={"sm"}
+                        >
+                          {transaction.DOCNUM}
+                        </Text>
+                        <HStack>
+                          <Text
+                            color={"muted.800"}
+                            fontWeight="400"
+
+                            // style={styles.myText}
+                            // fontSize={'8'}
+                          >
+                            {new Date(transaction.SALEDATE).toDateString()}
+                          </Text>
+                          <Center>
+                            <Divider orientation="vertical" h={3} mx={1} />
+                          </Center>
+
+                          <Text
+                            color={"muted.800"}
+                            fontWeight="400"
+
+                            // style={styles.myText}
+                            // fontSize={'8'}
+                          >
+                            {transaction.SALESBRANCH}
+                          </Text>
+                        </HStack>
+                        <Text
+                          color={"muted.800"}
+                          fontWeight="600"
+                          fontSize={"sm"}
+                        >
+                          Kshs.
+                          {transaction.Itmtotalinc.toFixed(2)
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        </Text>
+                        <HStack space={3}>
+                          <Text
+                            color="success.600"
+                            fontWeight="400"
+                            // style={styles.myText}
+                          >
+                            Earned:{" "}
+                            {transaction.MEMPOINTSBUY.toString().replace(
+                              /\B(?=(\d{3})+(?!\d))/g,
+                              ","
+                            )}
+                          </Text>
+
+                          <Text
+                            color="danger.600"
+                            fontWeight="400"
+                            // style={styles.myText}
+                          >
+                            Redeemed:{" "}
+                            {transaction.MEMPOINTSREDEEM.toString().replace(
+                              /\B(?=(\d{3})+(?!\d))/g,
+                              ","
+                            )}
+                          </Text>
+                        </HStack>
+                      </VStack>
+                      <Image
+                        source={require("../assets/right.png")}
+                        alt="company logo"
+                        // style={styles.companyLogo}
+                        size="2xs"
+                      />
+                    </HStack>
+                  </Box>
+                ))
+              ) : (
+                <Text
+                  color="coolGray.600"
+                  _dark={{
+                    color: "warmGray.200",
+                  }}
+                  fontWeight="500"
+                  fontSize="xs"
+                >
+                  No Transaction History
+                </Text>
+              )}
             </ScrollView>
           </View>
           {/* <View flex={1} bg="indigo.700" px="3">
