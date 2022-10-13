@@ -6,6 +6,7 @@ import Landing from "./components/landing";
 import Login from "./components/auth/login";
 import Dashboard from "./components/dashboard";
 import Transactions from "./components/transactions";
+import TransactionDetails from "./components/transactionDetails";
 import Profile from "./components/profile";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -89,6 +90,10 @@ export default function App() {
             headerShown: false,
           }}
         /> */}
+        <Stack.Screen
+          name="transactionDetails"
+          component={TransactionDetails}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
