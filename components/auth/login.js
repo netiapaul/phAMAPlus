@@ -128,8 +128,8 @@ function Login({ navigation }) {
           </Center>
         </View>
         {/*  w="100%" */}
-        <Center px="5" flex={1} bg="indigo.100">
-          <Box p="2" w="100%">
+        <Center px="5" flex={1} bg="coolGray.200">
+          <Box p="2" w="100%" flex={1}>
             <Heading
               size="lg"
               fontWeight="700"
@@ -160,6 +160,8 @@ function Login({ navigation }) {
                   onChangeText={(value) =>
                     setFormData({ ...formData, nationalID: value })
                   }
+                  borderWidth="1"
+                  borderColor={"gray.400"}
                 />
                 {"nationalID" in errors ? (
                   <FormControl.ErrorMessage>
@@ -177,6 +179,8 @@ function Login({ navigation }) {
                   onChangeText={(value) =>
                     setFormData({ ...formData, pin: value })
                   }
+                  borderWidth="1"
+                  borderColor={"gray.400"}
                   InputRightElement={
                     <Pressable onPress={() => setShow(!show)}>
                       <Icon
