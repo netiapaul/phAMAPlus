@@ -4,7 +4,7 @@ import { NativeBaseProvider, Box, View, HStack, Heading } from "native-base";
 import Colors from "../config/colors";
 import * as SecureStore from "expo-secure-store";
 
-function Transactions() {
+function Profile() {
   const storeData = async () => {
     let result = await SecureStore.getItemAsync("Future");
     if (result) {
@@ -29,7 +29,7 @@ function Transactions() {
           w="100%"
           bg="coolGray.200"
         >
-          <Heading size="md"> Transaction</Heading>
+          <Heading size="md"> Profile</Heading>
         </HStack>
         <View flex={1} bg="indigo.300">
           <Text> Headed to greatness with Kinjoz</Text>
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Transactions;
+export default Profile;

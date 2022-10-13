@@ -299,11 +299,7 @@ function Dashboard({ route, navigation }) {
                     key={index}
                     shadow={2}
                   >
-                    <HStack
-                      justifyContent="space-between"
-                      alignItems="center"
-                      bg={"indigo.100"}
-                    >
+                    <HStack justifyContent="space-between" alignItems="center">
                       <VStack>
                         <Text
                           color={"muted.800"}
