@@ -9,6 +9,7 @@ import Transactions from "./components/transactions";
 import TransactionDetails from "./components/transactionDetails";
 import Profile from "./components/profile";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Button } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -33,27 +34,9 @@ function Home() {
         },
       })}
     >
-      <Tab.Screen
-        name="Home"
-        component={Dashboard}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Transactions"
-        component={Transactions}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Tab.Screen name="Home" component={Dashboard} />
+      <Tab.Screen name="Transactions" component={Transactions} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 }
@@ -77,22 +60,18 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Dashboard"
+          name="Home"
           component={Home}
           options={{
             headerShown: false,
           }}
         />
-        {/* <Stack.Screen
-          name="Home"
-          component={Dashboard}
-          options={{
-            headerShown: false,
-          }}
-        /> */}
         <Stack.Screen
           name="transactionDetails"
           component={TransactionDetails}
+          options={{
+            headerLeft: null,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

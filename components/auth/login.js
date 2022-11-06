@@ -18,12 +18,16 @@ import {
   Icon,
   Image,
   Alert,
+  useToast,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
+
 // import { API_URL } from "@env";
 
 function Login({ navigation }) {
+  const toast = useToast();
+
   const [formData, setFormData] = useState({
     nationalID: "",
     pin: "",
@@ -76,15 +80,18 @@ function Login({ navigation }) {
           await SecureStore.setItemAsync("token", data.token);
           await SecureStore.setItemAsync("memberno", data.user.memberno);
           console.log(data);
-          return navigation.navigate("Dashboard");
+          return navigation.navigate("Home");
+          // return navigation.navigate("Dashboard");
         } else {
           const data = await response.json();
           setIsLoading(false);
-          // alert(data.errors.message);
+          alert(data.errors.message);
           // Snackbar.show({
           //   text: "Hello world",
           //   duration: Snackbar.LENGTH_SHORT,
           // });
+
+          // Alert(data.errors.message);
           return console.log(data.errors.message);
         }
       })
@@ -99,7 +106,11 @@ function Login({ navigation }) {
    * TODO: Handle Submit form
    */
   const handleSubmit = () => {
-    validate() ? handleLogin() : alert("Validation Failed");
+    validate() ? handleLogin() : alert("Please fill all the blanks");
+    // : Snackbar.show({
+    //     text: "Hello world",
+    //     duration: Snackbar.LENGTH_SHORT,
+    //   });
   };
 
   return (

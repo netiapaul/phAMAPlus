@@ -29,7 +29,7 @@ function Dashboard({ route, navigation }) {
     setIsLoading(true);
     let token = await SecureStore.getItemAsync("token");
     let memberno = await SecureStore.getItemAsync("memberno");
-    if (token || memberno) {
+    if (token && memberno) {
       return fetch(
         `http://102.37.102.247:5016/Customers/members?memberNum=${"PP000008"}`,
         {
@@ -67,7 +67,7 @@ function Dashboard({ route, navigation }) {
     setIsLoading(true);
     let token = await SecureStore.getItemAsync("token");
     let memberno = await SecureStore.getItemAsync("memberno");
-    if (token || memberno) {
+    if (token && memberno) {
       return fetch(
         `http://102.37.102.247:5016/CustomerPoints/GetCustomerTransactions?memberNo=${"PP000008"}`,
         {
@@ -102,15 +102,6 @@ function Dashboard({ route, navigation }) {
     }
   };
 
-  const storeData = async () => {
-    let result = await SecureStore.getItemAsync("token");
-    if (result) {
-      alert("🔐 Here's your value 🔐 \n" + result);
-    } else {
-      alert("No values stored under that key.");
-    }
-  };
-
   useEffect(() => {
     handleDashboard();
     handleTransactions();
@@ -125,7 +116,7 @@ function Dashboard({ route, navigation }) {
       ) : (
         <View flex={1}>
           <Box safeAreaTop />
-          <HStack
+          {/* <HStack
             p="2"
             justifyContent="space-between"
             alignItems="center"
@@ -136,7 +127,7 @@ function Dashboard({ route, navigation }) {
             <Avatar bg="green.500" mr="1" size="sm">
               RS
             </Avatar>
-          </HStack>
+          </HStack> */}
           <Box px="2" py="1">
             <VStack>
               <Text fontSize={"2xs"}> Welcome back,</Text>

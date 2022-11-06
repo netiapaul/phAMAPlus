@@ -70,7 +70,7 @@ function Transactions({ navigation }) {
   return (
     <NativeBaseProvider>
       <View flex={1}>
-        <Box safeAreaTop />
+        {/* <Box safeAreaTop />
         <HStack
           py="3"
           px="2"
@@ -80,7 +80,7 @@ function Transactions({ navigation }) {
           bg="coolGray.200"
         >
           <Heading size="md"> Transaction</Heading>
-        </HStack>
+        </HStack> */}
         {isLoading ? (
           <Center flex={1}>
             <ActivityIndicator size="large" color="#0000ff" />

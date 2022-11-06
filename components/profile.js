@@ -21,7 +21,7 @@ function Profile() {
   return (
     <NativeBaseProvider>
       <View flex={1}>
-        <Box safeAreaTop />
+        {/* <Box safeAreaTop />
         <HStack
           p="2"
           justifyContent="space-between"
@@ -30,7 +30,7 @@ function Profile() {
           bg="coolGray.200"
         >
           <Heading size="md"> Profile</Heading>
-        </HStack>
+        </HStack> */}
         <View flex={1} bg="indigo.300">
           <Text> Headed to greatness with Kinjoz</Text>
         </View>
