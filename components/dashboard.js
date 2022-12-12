@@ -279,7 +279,7 @@ function Dashboard({ route, navigation }) {
                   fontWeight={"bold"}
                   color={Colors.phAMACoreColor1}
                 >
-                  {userData.mempOintSBAL} pts
+                  {userData.mempOintSBUY} pts
                 </Text>
               </VStack>
 
