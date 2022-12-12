@@ -25,6 +25,7 @@ function Dashboard({ route, navigation }) {
   const [userData, setUserData] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const handleDashboard = async () => {
     setIsLoading(true);
     let token = await SecureStore.getItemAsync("token");
@@ -115,8 +116,8 @@ function Dashboard({ route, navigation }) {
         </Center>
       ) : (
         <View flex={1}>
-          <Box safeAreaTop />
-          {/* <HStack
+          {/* <Box safeAreaTop /> 
+          <HStack
             p="2"
             justifyContent="space-between"
             alignItems="center"
@@ -131,8 +132,11 @@ function Dashboard({ route, navigation }) {
           <Box px="2" py="1">
             <VStack>
               <Text fontSize={"2xs"}> Welcome back,</Text>
-              <Text fontWeight={"semibold"} color={Colors.phAMACoreColor2}>
-                {" "}
+              <Text
+                fontWeight={"semibold"}
+                fontSize={"xs"}
+                color={Colors.phAMACoreColor1}
+              >
                 {userData.membername}
               </Text>
             </VStack>
@@ -140,48 +144,28 @@ function Dashboard({ route, navigation }) {
           <View flex={1} p="5" justifyContent="center">
             <Box
               // minW="80"
+              p="4"
               shadow={5}
               rounded="lg"
               overflow="hidden"
               borderColor="coolGray.200"
+              bg={Colors.phAMACoreColor2}
               borderWidth=".5"
-              _dark={{
-                borderColor: "coolGray.600",
-                backgroundColor: "gray.700",
-              }}
-              _web={{
-                shadow: 2,
-                borderWidth: 0,
-              }}
-              _light={{
-                backgroundColor: "gray.50",
-              }}
             >
-              <Stack p="4" space={3}>
-                <Stack space={2}>
-                  <Heading size="sm">phAMAplus Points</Heading>
-                  {/* <Text
-                    fontSize="xs"
-                    _light={{
-                      color: "violet.500",
-                    }}
-                    _dark={{
-                      color: "violet.400",
-                    }}
-                    fontWeight="500"
-                    ml="-0.5"
-                    mt="-1"
-                  >
-                    Points available.
-                  </Text> */}
-                </Stack>
+              <Stack space={2}>
+                <Heading size="sm" color="white">
+                  phAMAplus Points
+                </Heading>
+              </Stack>
+              <Stack py={4} space={3}>
                 <Text
                   fontWeight="500"
                   space={3}
                   fontSize="5xl"
-                  color={Colors.phAMACoreColor2}
+                  // color={Colors.phAMACoreColor2}
+                  color="white"
                 >
-                  {userData.mempointsbal} pts
+                  {userData.mempOintSBAL} pts
                 </Text>
                 {/* <HStack
                   alignItems="center"
@@ -201,37 +185,37 @@ function Dashboard({ route, navigation }) {
                     </Text>
                   </HStack>
                 </HStack> */}
-                <HStack
-                  alignItems="center"
-                  space={4}
-                  justifyContent="space-between"
-                >
-                  <HStack alignItems="center">
-                    <Text
-                      color="coolGray.600"
-                      _dark={{
-                        color: "warmGray.200",
-                      }}
-                      fontWeight="500"
-                      fontSize="xs"
-                    >
-                      {userData.membername}
-                    </Text>
-                  </HStack>
-                  <HStack alignItems="center">
-                    <Text
-                      color="coolGray.600"
-                      _dark={{
-                        color: "warmGray.200",
-                      }}
-                      fontWeight="500"
-                      fontSize="xs"
-                    >
-                      {new Date().toDateString()}
-                    </Text>
-                  </HStack>
-                </HStack>
               </Stack>
+              <HStack
+                alignItems="center"
+                space={4}
+                justifyContent="space-between"
+              >
+                <HStack alignItems="center">
+                  <Text
+                    color="white"
+                    _dark={{
+                      color: "warmGray.200",
+                    }}
+                    fontWeight="500"
+                    fontSize="2xs"
+                  >
+                    {userData.membername}
+                  </Text>
+                </HStack>
+                <HStack alignItems="center">
+                  <Text
+                    color="white"
+                    _dark={{
+                      color: "warmGray.200",
+                    }}
+                    fontWeight="500"
+                    fontSize="2xs"
+                  >
+                    {new Date().toDateString()}
+                  </Text>
+                </HStack>
+              </HStack>
             </Box>
             <Flex
               direction="row"
@@ -246,7 +230,7 @@ function Dashboard({ route, navigation }) {
                 </Text>
 
                 <Text mx={"auto"} fontWeight={"bold"} color={Colors.success}>
-                  {userData.mempointsbal} pts
+                  {userData.mempOintSBAL} pts
                 </Text>
               </VStack>
 
@@ -260,7 +244,7 @@ function Dashboard({ route, navigation }) {
                   fontWeight={"bold"}
                   color={Colors.phAMACoreColor1}
                 >
-                  {userData.mempointsbuy} pts
+                  {userData.mempOintSBAL} pts
                 </Text>
               </VStack>
 
@@ -270,7 +254,7 @@ function Dashboard({ route, navigation }) {
                   Redeemed
                 </Text>
                 <Text mx={"auto"} fontWeight={"bold"} color={Colors.danger}>
-                  {userData.mempointsredeem} pts
+                  {userData.mempOintSREDEEM} pts
                 </Text>
               </VStack>
             </Flex>
@@ -280,7 +264,11 @@ function Dashboard({ route, navigation }) {
               Recent Transactions
             </Heading>
             <ScrollView>
-              {transactions ? (
+              {isLoading ? (
+                <Center flex={1}>
+                  <ActivityIndicator size="large" color="#0000ff" />
+                </Center>
+              ) : transactions ? (
                 transactions.map((transaction, index) => (
                   <Link
                     onPress={() =>
