@@ -99,6 +99,8 @@ function TransactionDetails({ route }) {
               p="2"
               justifyContent="space-between"
               alignItems="center"
+              borderWidth={1}
+              rounded="md"
             >
               <Center mx={"auto"}>
                 <Text mx={"auto"} fontWeight={"500"} color={"#5d3915"}>
