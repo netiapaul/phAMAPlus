@@ -4,11 +4,12 @@
     "slug": "phAMAplus",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/splash.png",
+    "icon": "./assets/pcico.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/favicon.png",
-      "backgroundColor": "#c58c4f"
+      "image": "./assets/splash_v2.png",
+      "backgroundColor": "#c58c4f",
+      "resizeMode": "cover"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,12 +20,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/pcico.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.netiapaul.phAMAplus"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b7ab66f5-f867-4c99-997b-1c718948cc45"
+      }
     }
   }
 }
