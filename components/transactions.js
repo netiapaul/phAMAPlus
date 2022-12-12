@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ActivityIndicator } from "react-native";
+import { StyleSheet, RefreshControl, ActivityIndicator } from "react-native";
 import {
   NativeBaseProvider,
   Box,
@@ -23,6 +23,7 @@ import * as SecureStore from "expo-secure-store";
 function Transactions({ navigation }) {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleTransactions = async () => {
     setIsLoading(true);
@@ -49,12 +50,14 @@ function Transactions({ navigation }) {
           } else {
             const data = await response.json();
             setIsLoading(false);
+            alert(data.errors.message);
             return console.log(data);
           }
         })
         .catch((error) => {
           setIsLoading(false);
           console.log(error.message);
+          alert("Check your internet connection!");
           // ADD THIS THROW error
           throw error;
         });
@@ -62,6 +65,16 @@ function Transactions({ navigation }) {
       alert("No values stored under that key.");
     }
   };
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    handleTransactions();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     handleTransactions();
@@ -86,7 +99,13 @@ function Transactions({ navigation }) {
             <ActivityIndicator size="large" color="#0000ff" />
           </Center>
         ) : (
-          <ScrollView bg="indigo.200" p={3}>
+          <ScrollView
+            // bg="indigo.200"
+            p={3}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
             {transactions ? (
               transactions.map((transaction, index) => (
                 <Link
@@ -108,7 +127,8 @@ function Transactions({ navigation }) {
                     my={1}
                     rounded="md"
                     bg="coolGray.100"
-                    shadow={2}
+                    borderWidth={1}
+                    // shadow={2}
                   >
                     <HStack justifyContent="space-between" alignItems="center">
                       <VStack>

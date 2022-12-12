@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ActivityIndicator } from "react-native";
+import { StyleSheet, RefreshControl, ActivityIndicator } from "react-native";
 import {
   NativeBaseProvider,
   Box,
@@ -25,6 +25,7 @@ function TransactionDetails({ route }) {
 
   const [transactionDetails, setTransactionDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleTransactionDetails = async () => {
     setIsLoading(true);
@@ -65,6 +66,16 @@ function TransactionDetails({ route }) {
     }
   };
 
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    handleTransactionDetails();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   useEffect(() => {
     handleTransactionDetails();
   }, []);
@@ -77,7 +88,12 @@ function TransactionDetails({ route }) {
             <ActivityIndicator size="large" color="#0000ff" />
           </Center>
         ) : (
-          <ScrollView p={3}>
+          <ScrollView
+            p={3}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
             <HStack
               bg="#fff"
               p="2"
