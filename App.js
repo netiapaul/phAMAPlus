@@ -72,7 +72,7 @@ function getHeaderTitle(route) {
     case "Transactions":
       return "Transactions";
     case "Profile":
-      return "Profile";
+      return "Edit Profile";
   }
 }
 
