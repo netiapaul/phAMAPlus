@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, ToastAndroid } from "react-native";
 import Colors from "../../config/colors";
 import {
   NativeBaseProvider,
@@ -106,7 +106,15 @@ function Login({ navigation }) {
    * TODO: Handle Submit form
    */
   const handleSubmit = () => {
-    validate() ? handleLogin() : alert("Please fill all the blanks");
+    validate()
+      ? handleLogin()
+      : ToastAndroid.showWithGravityAndOffset(
+          "Please fill in the blanks !",
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50
+        );
     // : Snackbar.show({
     //     text: "Hello world",
     //     duration: Snackbar.LENGTH_SHORT,
