@@ -9,6 +9,7 @@ import Transactions from "./components/transactions";
 import TransactionDetails from "./components/transactionDetails";
 import Profile from "./components/profile";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -34,11 +35,45 @@ function HomeStackScreen() {
         // headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={Dashboard} />
-      <Tab.Screen name="Transactions" component={Transactions} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        name="Home"
+        component={Dashboard}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Transactions"
+        component={Transactions}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Tab.Navigator>
   );
+}
+
+function getHeaderTitle(route) {
+  // If the focused route is not found, we need to assume it's the initial screen
+  // This can happen during if there hasn't been any navigation inside the screen
+  // In our case, it's "Feed" as that's the first screen inside the navigator
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "Feed";
+
+  switch (routeName) {
+    case "Home":
+      return "Home";
+    case "Transactions":
+      return "Transactions";
+    case "Profile":
+      return "Profile";
+  }
 }
 
 export default function App() {
@@ -60,12 +95,16 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Home"
+          name="Dashboard"
           component={HomeStackScreen}
-          options={{
+          // options={{
+          //   headerBackVisible: false,
+          //   headerShown: false,
+          // }}
+          options={({ route }) => ({
             headerBackVisible: false,
-            headerShown: false,
-          }}
+            headerTitle: getHeaderTitle(route),
+          })}
         />
         <Stack.Screen
           name="transactionDetails"
