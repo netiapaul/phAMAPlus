@@ -9,12 +9,11 @@ import Transactions from "./components/transactions";
 import TransactionDetails from "./components/transactionDetails";
 import Profile from "./components/profile";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Button } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function Home() {
+function HomeStackScreen() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -32,6 +31,7 @@ function Home() {
             />
           );
         },
+        // headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={Dashboard} />
@@ -61,8 +61,9 @@ export default function App() {
         />
         <Stack.Screen
           name="Home"
-          component={Home}
+          component={HomeStackScreen}
           options={{
+            headerBackVisible: false,
             headerShown: false,
           }}
         />
@@ -70,7 +71,7 @@ export default function App() {
           name="transactionDetails"
           component={TransactionDetails}
           options={{
-            headerLeft: null,
+            headerTitle: "Transactions Details",
           }}
         />
       </Stack.Navigator>
