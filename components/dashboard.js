@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ActivityIndicator } from "react-native";
+import { StyleSheet, RefreshControl, ActivityIndicator } from "react-native";
 import {
   NativeBaseProvider,
   Box,
@@ -25,45 +25,8 @@ function Dashboard({ route, navigation }) {
   const [userData, setUserData] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const handleDashboard = async () => {
-    setIsLoading(true);
-    let token = await SecureStore.getItemAsync("token");
-    let memberno = await SecureStore.getItemAsync("memberno");
-    if (token && memberno) {
-      return fetch(
-        `http://102.37.102.247:5016/Customers/members?memberNum=${"PP000008"}`,
-        {
-          method: "GET", // GET, POST, PUT, DELETE, etc.
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json; charset=utf-8",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-        .then(async (response) => {
-          if (response.ok) {
-            const data = await response.json();
-            setIsLoading(false);
-            setUserData(data[0]);
-            console.log(data);
-          } else {
-            const data = await response.json();
-            setIsLoading(false);
-            return console.log(data);
-          }
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          console.log(error.message);
-          // ADD THIS THROW error
-          throw error;
-        });
-    } else {
-      alert("No values stored under that key.");
-    }
-  };
   const handleTransactions = async () => {
     setIsLoading(true);
     let token = await SecureStore.getItemAsync("token");
@@ -102,20 +65,92 @@ function Dashboard({ route, navigation }) {
       alert("No values stored under that key.");
     }
   };
+  const handleDashboard = async () => {
+    setIsLoading(true);
+    let token = await SecureStore.getItemAsync("token");
+    let memberno = await SecureStore.getItemAsync("memberno");
+    if (token && memberno) {
+      return fetch(
+        `http://102.37.102.247:5016/Customers/members?memberNum=${"PP000008"}`,
+        {
+          method: "GET", // GET, POST, PUT, DELETE, etc.
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+        .then(async (response) => {
+          if (response.ok) {
+            const data = await response.json();
+            setIsLoading(false);
+            setUserData(data[0]);
+            console.log(data);
+            handleTransactions();
+          } else {
+            const data = await response.json();
+            setIsLoading(false);
+            return console.log(data);
+          }
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error.message);
+          // ADD THIS THROW error
+          throw error;
+        });
+    } else {
+      alert("No values stored under that key.");
+    }
+  };
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    handleDashboard();
+    handleTransactions();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     handleDashboard();
-    handleTransactions();
+    // setTimeout(() => {
+    //   handleTransactions();
+    // }, 3000);
+    // navigation.setOptions({
+    //   headerRight: () => (
+    //     <NativeBaseProvider>
+    //       <Flex alignItems="center">
+    //         <Avatar bg="green.500" mr="1" size="sm">
+    //           RS
+    //         </Avatar>
+    //       </Flex>
+    //     </NativeBaseProvider>
+    //   ),
+    // });
+    // [navigation]
   }, []);
 
   return (
     <NativeBaseProvider>
-      {isLoading ? (
-        <Center flex={1}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </Center>
-      ) : (
-        <View flex={1}>
+      <ScrollView
+        h="100%"
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {/* {isLoading ? (
+          <Center flex={1}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </Center>
+        ) : (
+          
+        )} */}
+        <View flex={1} bg="coolGray.100">
           {/* <Box safeAreaTop /> 
           <HStack
             p="2"
@@ -259,9 +294,9 @@ function Dashboard({ route, navigation }) {
               </VStack>
             </Flex>
           </View>
-          <View flex={2} bg="coolGray.300" px="3">
+          <View flex={2} px="3">
             <Heading mt={2} mb={2} size="md">
-              Recent Transactions
+              Transactions
             </Heading>
             <ScrollView>
               {isLoading ? (
@@ -288,9 +323,10 @@ function Dashboard({ route, navigation }) {
                       p="3"
                       my={1}
                       rounded="md"
+                      borderWidth={1}
                       bg="coolGray.100"
                       key={index}
-                      shadow={2}
+                      // shadow={1}
                     >
                       <HStack
                         justifyContent="space-between"
@@ -396,7 +432,7 @@ function Dashboard({ route, navigation }) {
           </Center>
         </View> */}
         </View>
-      )}
+      </ScrollView>
     </NativeBaseProvider>
   );
 }
