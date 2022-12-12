@@ -80,8 +80,8 @@ function Login({ navigation }) {
           await SecureStore.setItemAsync("token", data.token);
           await SecureStore.setItemAsync("memberno", data.user.memberno);
           console.log(data);
-          return navigation.navigate("Home");
-          // return navigation.navigate("Dashboard");
+          // return navigation.navigate("Home");
+          return navigation.navigate("Dashboard");
         } else {
           const data = await response.json();
           setIsLoading(false);
@@ -97,7 +97,8 @@ function Login({ navigation }) {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error.message);
+        console.log("Catch", error.message);
+        alert("Check your internet connection!");
         // ADD THIS THROW error
         throw error;
       });
