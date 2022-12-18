@@ -101,7 +101,7 @@ function Transactions({ navigation }) {
         ) : (
           <ScrollView
             // bg="indigo.200"
-            p={3}
+            px={3}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
