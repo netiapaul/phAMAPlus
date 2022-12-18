@@ -38,7 +38,7 @@ function Dashboard({ route, navigation }) {
     let memberno = await AsyncStorage.getItem("memberno");
     if (token && memberno) {
       return fetch(
-        `http://102.37.102.247:5016/CustomerPoints/GetCustomerTransactions?memberNo=${"PP000008"}`,
+        `http://102.37.102.247:5016/CustomerPoints/GetCustomerTransactions?memberNo=${memberno}`,
         {
           method: "GET", // GET, POST, PUT, DELETE, etc.
           headers: {
@@ -52,7 +52,7 @@ function Dashboard({ route, navigation }) {
           if (response.ok) {
             const data = await response.json();
             setIsLoading(false);
-            setTransactions(data);
+            setTransactions(data.slice(0, 5));
             console.log(data);
           } else {
             const data = await response.json();
@@ -80,7 +80,7 @@ function Dashboard({ route, navigation }) {
     let memberno = await AsyncStorage.getItem("memberno");
     if (token && memberno) {
       return fetch(
-        `http://102.37.102.247:5016/Customers/members?memberNum=${"PP000008"}`,
+        `http://102.37.102.247:5016/Customers/members?memberNum=${memberno}`,
         {
           method: "GET", // GET, POST, PUT, DELETE, etc.
           headers: {

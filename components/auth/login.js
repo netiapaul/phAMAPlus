@@ -78,6 +78,10 @@ function Login({ navigation }) {
         if (response.ok) {
           const data = await response.json();
           setIsLoading(false);
+          setFormData({
+            nationalID: "",
+            pin: "",
+          });
           // await SecureStore.setItemAsync("token", data.token);
           // await SecureStore.setItemAsync("memberno", data.user.memberno);
           // await SecureStore.setItemAsync(
@@ -89,10 +93,7 @@ function Login({ navigation }) {
           await AsyncStorage.setItem("fullusername", data.user.fullusername);
           console.log(data);
           // return navigation.navigate("Home");
-          setFormData({
-            nationalID: "",
-            pin: "",
-          });
+
           return navigation.navigate("Dashboard");
         } else {
           const data = await response.json();
@@ -201,6 +202,7 @@ function Login({ navigation }) {
                 <FormControl.Label>National ID</FormControl.Label>
                 <Input
                   placeholder="12345678"
+                  value={formData.nationalID}
                   onChangeText={(value) =>
                     setFormData({ ...formData, nationalID: value })
                   }
@@ -220,6 +222,7 @@ function Login({ navigation }) {
                 <Input
                   type={show ? "text" : "password"}
                   keyboardType="numeric"
+                  value={formData.pin}
                   onChangeText={(value) =>
                     setFormData({ ...formData, pin: value })
                   }
