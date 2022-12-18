@@ -9,6 +9,7 @@ import {
   Heading,
   Center,
   Avatar,
+  Alert,
   Text,
   VStack,
   Divider,
@@ -52,12 +53,14 @@ function Dashboard({ route, navigation }) {
           } else {
             const data = await response.json();
             setIsLoading(false);
+            alert(data.errors.message);
             return console.log(data);
           }
         })
         .catch((error) => {
           setIsLoading(false);
           console.log(error.message);
+          alert("Check your internet connection!");
           // ADD THIS THROW error
           throw error;
         });
@@ -96,6 +99,7 @@ function Dashboard({ route, navigation }) {
         })
         .catch((error) => {
           setIsLoading(false);
+          alert("Check your internet connection!");
           console.log(error.message);
           // ADD THIS THROW error
           throw error;
