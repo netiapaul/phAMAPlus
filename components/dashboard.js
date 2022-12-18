@@ -20,6 +20,8 @@ import {
 } from "native-base";
 import Colors from "../config/colors";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 // import Snackbar from "react-native-snackbar";
 
 function Dashboard({ route, navigation }) {
@@ -30,8 +32,10 @@ function Dashboard({ route, navigation }) {
 
   const handleTransactions = async () => {
     setIsLoading(true);
-    let token = await SecureStore.getItemAsync("token");
-    let memberno = await SecureStore.getItemAsync("memberno");
+    // let token = await SecureStore.getItemAsync("token");
+    // let memberno = await SecureStore.getItemAsync("memberno");
+    let token = await AsyncStorage.getItem("token");
+    let memberno = await AsyncStorage.getItem("memberno");
     if (token && memberno) {
       return fetch(
         `http://102.37.102.247:5016/CustomerPoints/GetCustomerTransactions?memberNo=${"PP000008"}`,
@@ -70,8 +74,10 @@ function Dashboard({ route, navigation }) {
   };
   const handleDashboard = async () => {
     setIsLoading(true);
-    let token = await SecureStore.getItemAsync("token");
-    let memberno = await SecureStore.getItemAsync("memberno");
+    // let token = await SecureStore.getItemAsync("token");
+    // let memberno = await SecureStore.getItemAsync("memberno");
+    let token = await AsyncStorage.getItem("token");
+    let memberno = await AsyncStorage.getItem("memberno");
     if (token && memberno) {
       return fetch(
         `http://102.37.102.247:5016/Customers/members?memberNum=${"PP000008"}`,

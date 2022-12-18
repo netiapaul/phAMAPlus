@@ -19,6 +19,7 @@ import {
 } from "native-base";
 import Colors from "../config/colors";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Transactions({ navigation }) {
   const [transactions, setTransactions] = useState([]);
@@ -27,12 +28,14 @@ function Transactions({ navigation }) {
 
   const handleTransactions = async () => {
     setIsLoading(true);
-    let token = await SecureStore.getItemAsync("token");
-    let memberno = await SecureStore.getItemAsync("memberno");
+    // let token = await SecureStore.getItemAsync("token");
+    // let memberno = await SecureStore.getItemAsync("memberno");
+    let token = await AsyncStorage.getItem("token");
+    let memberno = await AsyncStorage.getItem("memberno");
     if (token || memberno) {
       //  PP000008 PPL000031
       return fetch(
-        `http://102.37.102.247:5016/CustomerPoints/GetCustomerTransactions?memberNo=${"PPL000031"}`,
+        `http://102.37.102.247:5016/CustomerPoints/GetCustomerTransactions?memberNo=${memberno}`,
         {
           method: "GET", // GET, POST, PUT, DELETE, etc.
           headers: {

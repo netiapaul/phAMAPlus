@@ -22,6 +22,7 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // import { API_URL } from "@env";
 
@@ -77,14 +78,21 @@ function Login({ navigation }) {
         if (response.ok) {
           const data = await response.json();
           setIsLoading(false);
-          await SecureStore.setItemAsync("token", data.token);
-          await SecureStore.setItemAsync("memberno", data.user.memberno);
-          await SecureStore.setItemAsync(
-            "fullusername",
-            data.user.fullusername
-          );
+          // await SecureStore.setItemAsync("token", data.token);
+          // await SecureStore.setItemAsync("memberno", data.user.memberno);
+          // await SecureStore.setItemAsync(
+          //   "fullusername",
+          //   data.user.fullusername
+          // );
+          await AsyncStorage.setItem("token", data.token);
+          await AsyncStorage.setItem("memberno", data.user.memberno);
+          await AsyncStorage.setItem("fullusername", data.user.fullusername);
           console.log(data);
           // return navigation.navigate("Home");
+          setFormData({
+            nationalID: "",
+            pin: "",
+          });
           return navigation.navigate("Dashboard");
         } else {
           const data = await response.json();
