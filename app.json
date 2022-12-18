@@ -4,8 +4,8 @@
     "slug": "phAMAplus",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/pcico.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/ic_launcher_foreground.png",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash_v2.png",
       "backgroundColor": "#c58c4f",
@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/pcico.png",
+        "foregroundImage": "./assets/ic_launcher_foreground.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.netiapaul.phAMAplus"
