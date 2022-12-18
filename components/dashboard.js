@@ -256,47 +256,55 @@ function Dashboard({ route, navigation }) {
                 </HStack>
               </HStack>
             </Box>
-            <Flex
-              direction="row"
-              p="4"
-              w={"100%"}
-              justifyContent="space-between"
+            <Box
+              width="100%"
+              // p="3"
               mt={2}
+              rounded="md"
+              borderWidth={0.5}
             >
-              <VStack mx={"auto"}>
-                <Text mx={"auto"} fontWeight="200">
-                  Available
-                </Text>
+              <Flex
+                direction="row"
+                p="4"
+                w={"100%"}
+                justifyContent="space-between"
+                // mt={2}
+              >
+                <VStack mx={"auto"}>
+                  <Text mx={"auto"} fontWeight="200">
+                    Available
+                  </Text>
 
-                <Text mx={"auto"} fontWeight={"bold"} color={Colors.success}>
-                  {userData.mempOintSBAL} pts
-                </Text>
-              </VStack>
+                  <Text mx={"auto"} fontWeight={"bold"} color={Colors.success}>
+                    {userData.mempOintSBAL} pts
+                  </Text>
+                </VStack>
 
-              <Divider thickness="1" mx="2" orientation="vertical" />
-              <VStack mx={"auto"}>
-                <Text mx={"auto"} fontWeight="200">
-                  Gained
-                </Text>
-                <Text
-                  mx={"auto"}
-                  fontWeight={"bold"}
-                  color={Colors.phAMACoreColor1}
-                >
-                  {userData.mempOintSBUY} pts
-                </Text>
-              </VStack>
+                <Divider thickness="1" mx="2" orientation="vertical" />
+                <VStack mx={"auto"}>
+                  <Text mx={"auto"} fontWeight="200">
+                    Gained
+                  </Text>
+                  <Text
+                    mx={"auto"}
+                    fontWeight={"bold"}
+                    color={Colors.phAMACoreColor1}
+                  >
+                    {userData.mempOintSBUY} pts
+                  </Text>
+                </VStack>
 
-              <Divider thickness="1" mx="2" orientation="vertical" />
-              <VStack mx={"auto"}>
-                <Text mx={"auto"} fontWeight="200">
-                  Redeemed
-                </Text>
-                <Text mx={"auto"} fontWeight={"bold"} color={Colors.danger}>
-                  {userData.mempOintSREDEEM} pts
-                </Text>
-              </VStack>
-            </Flex>
+                <Divider thickness="1" mx="2" orientation="vertical" />
+                <VStack mx={"auto"}>
+                  <Text mx={"auto"} fontWeight="200">
+                    Redeemed
+                  </Text>
+                  <Text mx={"auto"} fontWeight={"bold"} color={Colors.danger}>
+                    {userData.mempOintSREDEEM} pts
+                  </Text>
+                </VStack>
+              </Flex>
+            </Box>
           </View>
           <View flex={2} px="3">
             <Heading mt={2} mb={2} size="md">
