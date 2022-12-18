@@ -79,13 +79,17 @@ function Login({ navigation }) {
           setIsLoading(false);
           await SecureStore.setItemAsync("token", data.token);
           await SecureStore.setItemAsync("memberno", data.user.memberno);
+          await SecureStore.setItemAsync(
+            "fullusername",
+            data.user.fullusername
+          );
           console.log(data);
           // return navigation.navigate("Home");
           return navigation.navigate("Dashboard");
         } else {
           const data = await response.json();
           setIsLoading(false);
-          // alert(data.errors.message);
+          alert(data.errors.message);
           // <Alert w="100%" status={"error"}>
           //   <VStack space={2} flexShrink={1} w="100%">
           //     <HStack flexShrink={1} space={2} justifyContent="space-between">
